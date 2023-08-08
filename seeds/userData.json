@@ -1,14 +1,6 @@
 [
   {
-    "name": "Sal",
-    "password": "password12345"
-  },
-  {
-    "name": "Lernantino",
-    "password": "password12345"
-  },
-  {
-    "name": "Amiko",
+    "username": "Sal",
     "password": "password12345"
   }
 ]
