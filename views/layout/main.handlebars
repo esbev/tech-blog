@@ -11,8 +11,12 @@
         <ul>
             <li><a>Home</a></li>
             <li><a>Dashboard</a></li>
+            {{#if !logged_in}}
             <li><a>Login</a></li>
+            {{/if}}
+            {{#if logged_in}}
             <li><a>Logout</a></li>
+            {{/if}}
         </ul>
     </header>
     <main class="container container-fluid mt-5">

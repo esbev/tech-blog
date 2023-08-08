@@ -12,11 +12,6 @@ Comment.init(
     description: {
       type: DataTypes.STRING,
     },
-    created_on: {
-      type: DataTypes.DATE,
-      allowNull: false,
-      defaultValue: DataTypes.NOW,
-    },
     user_id: {
       type: DataTypes.INTEGER,
       references: {
