@@ -3,10 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Tech Blog</title>
+    <link rel="stylesheet" href="/css/jass.css">
 </head>
 <body>
-    <header>
+    <header class="display-flex justify-space-between align-center p-2">
         <ul>
             <li><a>Home</a></li>
             <li><a>Dashboard</a></li>
@@ -14,6 +15,16 @@
             <li><a>Logout</a></li>
         </ul>
     </header>
+    <main class="container container-fluid mt-5">
+        {{{ body }}}
+    </main>
+    <footer>
+      
+  </footer>
+
+  {{#if logged_in}}
+  <script src="/js/logout.js"></script>
+  {{/if}}
     
 </body>
 </html>
