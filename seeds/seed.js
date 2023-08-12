@@ -15,17 +15,14 @@ const seedDatabase = async () => {
   });
 
   for (const post of postData) {
-    await post.create({
-      ...post,
-      user_id: user.id,
+    await Post.create({
+      ...post
     });
   }
 
   for (const comment of commentData) {
-    await comment.create({
-      ...comment,
-      post_id: post.id,
-      user_id: user.id,
+    await Comment.create({
+      ...comment
     });
   }
 

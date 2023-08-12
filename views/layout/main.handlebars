@@ -12,10 +12,10 @@
             <li><a>Home</a></li>
             <li><a>Dashboard</a></li>
             {{#if !logged_in}}
-            <li><a>Login</a></li>
+            <li><button class="btn" id="logout">Login</button></li>
             {{/if}}
             {{#if logged_in}}
-            <li><a>Logout</a></li>
+            <li><button class="btn" id="logout">Logout</button></li>
             {{/if}}
         </ul>
     </header>
@@ -24,7 +24,7 @@
     </main>
     <footer>
       
-  </footer>
+    </footer>
 
   {{#if logged_in}}
   <script src="/js/logout.js"></script>
