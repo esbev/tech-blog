@@ -1,0 +1,45 @@
+<h2>Dashboard</h2>
+{{!-- {{#with this as | post |}}
+{{#with session as | session | }}
+{{#if session.loggedIn}}
+{{#if (compare post.user_id session.user_id)}} --}}
+
+{{#each posts as |post|}}
+<form class="form">
+  <div class="form-group">
+    <h3>{{post.title}}</h3>
+  </div>
+  <div class="form-group">
+    <p>{{post.description}}</p>
+  </div>
+  <div class="form-group">
+    <p>Posted by {{post.author}} on {{post.created_on}}</p>
+  </div> 
+</form>
+<div class="form-group">
+  <button class="btn btn-info" id="update" type="button">Update</button>
+  <button class="btn btn-danger" id="delete" type="button">Delete</button>
+</div>
+{{/each}}
+
+
+{{!-- {{#if isActive}}
+{{else}}
+{{/if}}
+
+{{#if isActive}}
+{{else if isInactive}}
+{{/if}}
+
+{{!-- to <ul> --}}
+{{#list nav id="nav-bar" class="top"}}
+  <a href="{{url}}">{{title}}</a>
+{{/list}}
+{{!--user is the value, userId is the index index--}}
+{{#each users as |user userId|}}
+  {{#each user.book as |book bookId|}}
+    User Id: {{userId}} Book Id: {{bookId}}
+  {{/each}}
+{{/each}} --}}
+
+<script src="../public/js/dashboard.js"></script>
