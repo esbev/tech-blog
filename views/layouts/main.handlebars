@@ -10,10 +10,10 @@
     <header class="display-flex justify-space-between align-center p-2">
             <a href="/">Home</a>
             <a href="/dashboard">Dashboard</a>
-            {{#if !logged_in}}
-            <button class="btn-no-style" id="logout">Login</button>
-            {{else}}
+            {{#if logged_in}}
             <button class="btn-no-style" id="logout">Logout</button>
+            {{else}}
+            <button class="btn-no-style" id="login">Login</button>
             {{/if}}
         </ul>
     </header>

@@ -2,32 +2,33 @@ const router = require('express').Router();
 const { Post, Comment } = require('../models');
 const withAuth = require('../utils/auth');
 
-//get all posts
-router.get('/', withAuth, async (req, res) => {
+router.get("/home", withAuth, async (req, res) => {
+  if (!req.session.logged_in) {
+    res.redirect('/login');
+    return;
+  }
+
   try {
     const postData = await Post.findAll({
-      include: [{ model: Comment}],
-    });
+      include: [{ model: Comment }]
+    })
+    const posts = postData.map((posts) => posts.get({plain:true}))
 
-    const posts = postData.map((post) => post.get({ plain: true }));
-
-    res.render('home', {
-      posts,
+    res.render("home", {
       logged_in: req.session.logged_in,
+      posts
     });
   } catch (err) {
-    console.error(err);
-    res.status(500).json(err);
+    res.status(500).json(err)
   }
 });
 
-//get all user posts
-router.get('/posts', withAuth, async (req, res) => {
+
+//get user posts for dashboard
+router.get('/dashboard', withAuth, async (req, res) => {
   try {
     const postData = await Post.findAll({
-      where: {
-        user_id: req.session.id,
-      },
+      where: { user_id: req.session.id },
       include: [{ model: Comment}],
     });
 
@@ -43,6 +44,16 @@ router.get('/posts', withAuth, async (req, res) => {
   }
 });
 
+// router.get("/", async (req, res) => {
+//   if (req.session.logged_in) {
+//     res.redirect("dashboard");
+//   }
+
+//   res.render("dashboard", {
+//     logged_in: req.session.logged_in,
+//   });
+// });
+
 router.get('/login', (req, res) => {
   if (req.session.logged_in) {
     res.redirect('/');
@@ -50,6 +61,21 @@ router.get('/login', (req, res) => {
   }
 
   res.render('login');
+});
+
+router.get("/logout", async (req, res) => {
+  try {
+    if (req.session.logged_in) {
+      await req.session.destroy();
+      res.redirect("/");
+    } else {
+      res.status(404).json({ message: "Session not found" });
+    }
+  } catch (err) {
+    console.error("Error during logout:", err);
+    res.status(500).json(err);
+  }
+  res.render("logout");
 });
 
 module.exports = router;

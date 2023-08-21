@@ -2,7 +2,7 @@ const router = require('express').Router();
 const { Post, Comment } = require('../../models');
 
 //get all posts for home
-router.get('/home', async (req, res) => {
+router.get('/', async (req, res) => {
   try {
     const postData = await Post.findAll({
       include: [{ model: Comment }],
@@ -19,8 +19,8 @@ router.get('/home', async (req, res) => {
     }
 });
 
-//get all posts for user dashboard
-router.get('/dashboard', async (req, res) => {
+//get all posts for home
+router.get('/', async (req, res) => {
   try {
     const postData = await Post.findAll({
       include: [{ model: Comment }],
