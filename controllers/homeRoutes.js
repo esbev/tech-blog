@@ -2,11 +2,11 @@ const router = require('express').Router();
 const { Post, Comment } = require('../models');
 const withAuth = require('../utils/auth');
 
-router.get("/home", withAuth, async (req, res) => {
-  if (!req.session.logged_in) {
-    res.redirect('/login');
-    return;
-  }
+router.get("/", withAuth, async (req, res) => {
+  // if (!req.session.logged_in) {
+  //   res.redirect('/');
+  //   return;
+  // }
 
   try {
     const postData = await Post.findAll({
@@ -26,6 +26,11 @@ router.get("/home", withAuth, async (req, res) => {
 
 //get user posts for dashboard
 router.get('/dashboard', withAuth, async (req, res) => {
+  if (!req.session.logged_in) {
+    res.redirect('/');
+    return;
+  }
+  
   try {
     const postData = await Post.findAll({
       where: { user_id: req.session.id },
@@ -54,13 +59,13 @@ router.get('/dashboard', withAuth, async (req, res) => {
 //   });
 // });
 
-router.get('/login', (req, res) => {
+router.get('/', (req, res) => {
   if (req.session.logged_in) {
     res.redirect('/');
-    return;
+    // return;
   }
 
-  res.render('login');
+  res.render('dashboard');
 });
 
 router.get("/logout", async (req, res) => {

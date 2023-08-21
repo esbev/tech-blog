@@ -1,13 +1,14 @@
-const router = require('express').Router();
-const { User } = require('../../models');
+const router = require("express").Router();
+const { User } = require("../../models");
 
-router.post('/', async (req, res) => {
+router.post("/login", async (req, res) => {
   try {
     const userData = await User.create({
       username: req.body.username,
       password: req.body.password
     });
-    req.session.save(() => {
+      req.session.save(() => {
+      req.session.user_id = userData.id;
       req.session.loggedIn = true;
       res.status(200).json(userData);
     });
@@ -17,14 +18,14 @@ router.post('/', async (req, res) => {
   }
 });
 
-router.post('/login', async (req, res) => {
+router.post("/login", async (req, res) => {
   try {
     const userData = await User.findOne({ where : { user_id: req.body.id } });
 
     if (!userData) {
       res
         .status(400)
-        .json({ message: 'Failed to login' });
+        .json({ message: "Failed to login" });
       return;
     }
 
@@ -33,14 +34,13 @@ router.post('/login', async (req, res) => {
     if (!validPassword) {
       res
         .status(400)
-        .json({ message: 'Failed to login' });
+        .json({ message: "Failed to login" });
       return;
     }
 
     req.session.save(() => {
     req.session.user_id = userData.id;
     req.session.logged_in = true;
-
     res.status(200).json(userData);
     });
   } catch (err) {
@@ -49,7 +49,7 @@ router.post('/login', async (req, res) => {
   }
 });
 
-router.post('/logout', (req, res) => {
+router.post("/logout", (req, res) => {
   if (req.session.logged_in) {
     req.session.destroy(() => {
       res.status(204).end();
