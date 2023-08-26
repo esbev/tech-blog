@@ -1,18 +1,14 @@
-const router = require('express').Router();
-const { Post, Comment } = require('../models');
-const withAuth = require('../utils/auth');
+const router = require("express").Router();
+const { Post, Comment } = require("../models");
+const withAuth = require("../utils/auth");
 
-router.get("/", withAuth, async (req, res) => {
-  // if (!req.session.logged_in) {
-  //   res.redirect('/');
-  //   return;
-  // }
+router.get("/", async (req, res) => {
 
   try {
     const postData = await Post.findAll({
       include: [{ model: Comment }]
     })
-    const posts = postData.map((posts) => posts.get({plain:true}))
+    const posts = postData.map((post) => post.get({plain:true}))
 
     res.render("home", {
       logged_in: req.session.logged_in,
@@ -23,11 +19,9 @@ router.get("/", withAuth, async (req, res) => {
   }
 });
 
-
-//get user posts for dashboard
-router.get('/dashboard', withAuth, async (req, res) => {
+router.get("/dashboard", withAuth, async (req, res) => {
   if (!req.session.logged_in) {
-    res.redirect('/');
+    res.redirect("/");
     return;
   }
   
@@ -39,7 +33,7 @@ router.get('/dashboard', withAuth, async (req, res) => {
 
     const posts = postData.map((post) => post.get({ plain: true }));
 
-    res.render('dashboard', {
+    res.render("dashboard", {
       posts,
       logged_in: req.session.logged_in,
     });
@@ -49,23 +43,22 @@ router.get('/dashboard', withAuth, async (req, res) => {
   }
 });
 
-// router.get("/", async (req, res) => {
-//   if (req.session.logged_in) {
-//     res.redirect("dashboard");
-//   }
-
-//   res.render("dashboard", {
-//     logged_in: req.session.logged_in,
-//   });
-// });
-
-router.get('/', (req, res) => {
+router.get("/login", (req, res) => {
   if (req.session.logged_in) {
-    res.redirect('/');
-    // return;
+    res.redirect("/");
+    return;
   }
 
-  res.render('dashboard');
+  res.render("login");
+});
+
+router.get("/signUp", (req, res) => {
+  if (req.session.logged_in) {
+    res.redirect("/");
+    return;
+  }
+
+  res.render("signup");
 });
 
 router.get("/logout", async (req, res) => {

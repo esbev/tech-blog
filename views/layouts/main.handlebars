@@ -8,12 +8,13 @@
 </head>
 <body>
     <header class="display-flex justify-space-between align-center p-2">
-            <a href="/">Home</a>
-            <a href="/dashboard">Dashboard</a>
+            <a class="btn" href="/">Home</a>
             {{#if logged_in}}
-            <button class="btn-no-style" id="logout">Logout</button>
+            <a href="/dashboard" class="btn">Dashboard</a>
+            <a class="btn" id="logout">Logout</a>
             {{else}}
-            <button class="btn-no-style" id="login">Login</button>
+            <a href="/signUp" class="btn">Sign Up</a>
+            <a href="/login" class="btn">Login</a>
             {{/if}}
         </ul>
     </header>

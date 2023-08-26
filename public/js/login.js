@@ -4,47 +4,25 @@ const loginFormHandler = async (event) => {
   const username = document.querySelector('#username-login').value.trim();
   const password = document.querySelector('#password-login').value.trim();
 
-  if (username && password) {
-    const response = await fetch('/api/users/login', {
-      method: 'POST',
-      body: JSON.stringify({ username, password }),
-      headers: { 'Content-Type': 'application/json' },
-    });
-
-    if (response.ok) {
-      document.location.replace('/');
-    } else {
-      alert('Failed to log in');
-    }
+  if (!username && password) {
+    alert("Must provide username and password.");
+    return;
   }
-};
 
-const signupFormHandler = async (event) => {
-  event.preventDefault();
+  const response = await fetch('/api/users/login', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ username, password }),
+  });
 
-  const username = document.querySelector('#username-signup').value.trim();
-  const password = document.querySelector('#password-signup').value.trim();
-
-  if (username && password) {
-    const response = await fetch('/api/users/', {
-      method: 'POST',
-      body: JSON.stringify({ username, password }),
-      headers: { 'Content-Type': 'application/json' },
-    });
-
-    if (response.ok) {
-      document.location.replace('/');
-    } else {
-      alert('Failed to create account');
-    }
+  if (response.ok) {
+    document.location.replace('/dashboard');
+  } else {
+    alert('Failed to log in');
   }
-};
 
+};
 
 document
   .querySelector('.login-form')
   .addEventListener('submit', loginFormHandler);
-
-document
-  .querySelector('.signup-form')
-  .addEventListener('save', signupFormHandler);
