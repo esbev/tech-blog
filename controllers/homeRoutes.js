@@ -19,30 +19,6 @@ router.get("/", async (req, res) => {
   }
 });
 
-router.get("/dashboard", withAuth, async (req, res) => {
-  if (!req.session.logged_in) {
-    res.redirect("/");
-    return;
-  }
-  
-  try {
-    const postData = await Post.findAll({
-      where: { user_id: req.session.id },
-      include: [{ model: Comment}],
-    });
-
-    const posts = postData.map((post) => post.get({ plain: true }));
-
-    res.render("dashboard", {
-      posts,
-      logged_in: req.session.logged_in,
-    });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json(err);
-  }
-});
-
 router.get("/login", (req, res) => {
   if (req.session.logged_in) {
     res.redirect("/");
