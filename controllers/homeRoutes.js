@@ -37,6 +37,15 @@ router.get("/signUp", (req, res) => {
   res.render("signup");
 });
 
+router.get("/dash", (req, res) => {
+  if (req.session.logged_in) {
+    res.redirect("/");
+    return;
+  }
+
+  res.render("dashboard");
+});
+
 router.get("/logout", async (req, res) => {
   try {
     if (req.session.logged_in) {
