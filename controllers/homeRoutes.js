@@ -37,7 +37,7 @@ router.get("/signUp", (req, res) => {
   res.render("signup");
 });
 
-router.get("/dash", (req, res) => {
+router.get("/post", (req, res) => {
   if (req.session.logged_in) {
     res.redirect("/");
     return;
