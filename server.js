@@ -10,8 +10,25 @@ const SequelizeStore = require('connect-session-sequelize')(session.Store);
 const app = express();
 const PORT = process.env.PORT || 3001;
 
-// const hbs = exphbs.create({ helpers });
-const hbs = exphbs.create();
+// const hbs = exphbs.create();
+var hbs = engine.create({
+  // extname: '.hbs',
+  // defaultLayout: 'main',
+  // layoutsDir: `${__dirname}/views/layouts`,
+  // partialsDir: `${__dirname}/views/partials`,
+  helpers: {
+    formatTime: function (date, format) {
+      return dayjs(date).format(format);
+    },
+    // compare: function (val1, val2) {
+    //   return val1 === val2 ? true : false
+    // },
+    // runtimeOptions: {
+    //   allowProtoPropertiesByDefault: true,
+    //   allowProtoMethodsByDefault: true
+    // }
+  },
+});
 
 const sess = {
   secret: 'Super secret secret',

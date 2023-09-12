@@ -1,14 +1,22 @@
 [
   {
-    "author": "Jack",
     "title": "OOP",
     "description": "Object Oriented Programming.",
     "user_id": 2
   },
   {
-    "author": "Jill",
     "title": "ORM",
     "description": "Object Relational Mapping.",
     "user_id": 1
+  },
+  {
+    "title": "CSS",
+    "description": "Cascading Style sheets.",
+    "user_id": 3
+  },
+  {
+    "title": "CS",
+    "description": "Computer Science.",
+    "user_id": 4
   }
 ]
