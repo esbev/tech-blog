@@ -1,14 +1,16 @@
 const router = require('express').Router();
-const { Post, Comment } = require('../../models');
+const { Post, Comment, User } = require('../../models');
 
 router.get('/', async (req, res) => {
   try {
     const postData = await Post.findAll({
-      where: { user_id: req.session.id },
-      include: [{ model: Comment}],
+      // where: { user_id: req.session.id },
+      include: [{ 
+        model: Comment, 
+        model: User}],
     });
 
-    const posts = postData.map((aPost) => aPost.get({ plain: true }));
+    const posts = postData.map((post) => post.get({ plain: true }));
 
     res.render("dashboard", {
       logged_in: req.session.logged_in,
@@ -23,7 +25,11 @@ router.get('/', async (req, res) => {
 router.post('/', async (req, res) => {
   if (req.session.logged_in) {
     try {
-      const postData = await Post.create(req.session.user_id, req.body)
+      const postData = await Post.create({
+        user_id: req.session.user_id,
+        author: req.username,
+        description: req.body,
+      })
       return res.status(200).json(postData);
     } catch (err) {
       console.error(err);
@@ -35,7 +41,12 @@ router.post('/', async (req, res) => {
 router.put('/:id', async (req, res) => {
   if (req.session.logged_in) {
     try {
-      const updatedPost = await Post.update(req.session.user_id, req.params.id, req.body)
+      const updatedPost = await Post.update({
+        where: {
+          id: req.params.id,
+          description: req.body,
+        }
+      })
       return res.status(200).json(updatedPost);
     } catch (err) {
       console.error(err);
@@ -47,7 +58,9 @@ router.put('/:id', async (req, res) => {
 router.delete('/:id', async (req, res) => {
   if (req.session.logged_in) {
     try {
-      const deletePost = await Post.update(req.session.user_id, req.params.id)
+      const deletePost = await Post.destroy({
+        where: {id: Post.id}
+      })
       return res.status(200).json("deleted");
     } catch (err) {
       console.error(err);
@@ -55,59 +68,3 @@ router.delete('/:id', async (req, res) => {
     }
   }
 });
-// try this
-// router.get('/', async (req, res) => {
-//   let blogposts = await db.getBlogPosts();
-//   if (blogposts) {
-//     let blogposts = blogposts.map((blogpost) => blogpost.get({ plain: true }));
-//     return res.status(200).json(blogposts)
-//   }
-//   else {
-//     return res.status(404).send('No blog posts found')
-//   }
-// });
-
-// router.post('/', async (req, res) => {
-//   if (req.session.loggedIn) {  
-//   await db.createBlogPost(req.session.user_id, req.body)
-//     .then((blogpost) => {
-//       return res.status(200).json(blogpost);
-//     })
-//     .catch((err) => {
-//       console.log(err);
-//       return res.status(500).json(err);
-//     });
-//   } else {
-//     return res.status(401)
-//   }
-// });
-
-// router.put('/:id', async (req, res) => {
-//   if (req.session.loggedIn) {
-//     console.log(req.body)
-//   await db.updateBlogPost(req.session.user_id, req.params.id, req.body)
-//   .then((blogpost) => {
-//       return res.status(200).json(blogpost);
-//     })
-//   .catch((err) => {
-//       return res.status(500).json(err);
-//     });
-//   } else {
-//     return res.status(401)
-//   }
-// });
-
-// router.delete('/:id', async (req, res) => {
-//   if (req.session.loggedIn) {
-//   await db.deleteBlogPost(req.session.user_id, req.params.id)
-//   .then((blogpost) => {
-//     return res.status(200).send("Successfuly deleted blog post")
-//   })
-//   .catch((err) => {
-//     console.log(err)
-//     return res.status(500).json(err);
-//   })
-//   } else {
-//     return res.status(401)
-//   }
-// });
